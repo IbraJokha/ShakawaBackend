@@ -4,6 +4,24 @@ from models import db, Report
 # Create a Blueprint for report routes
 report_bp = Blueprint('reports', __name__)
 
+# Helper function for authentication (placeholder)
+def authenticate_request():
+    auth_header = request.headers.get('Authorization')
+    if not auth_header or auth_header != "Bearer YOUR_SECRET_TOKEN":  # Replace with actual logic
+        return False
+    return True
+
+# Middleware to require authentication (except for certain routes)
+@report_bp.before_request
+def require_auth():
+    exempt_routes = [
+        ('reports.create_report', 'POST'),
+        ('reports.get_reports_by_phone', 'GET'),
+    ]
+    if (request.endpoint, request.method) not in exempt_routes:
+        if not authenticate_request():
+            return jsonify({'error': 'Unauthorized'}), 401
+
 # Create a new report
 @report_bp.route('/', methods=['POST'])
 def create_report():
@@ -27,6 +45,24 @@ def create_report():
 @report_bp.route('/', methods=['GET'])
 def get_reports():
     reports = Report.query.all()
+    result = [
+        {
+            'id': report.id,
+            'title': report.title,
+            'description': report.description,
+            'category': report.category,
+            'gps_location': report.gps_location,
+            'manual_location': report.manual_location,
+            'media_url': report.media_url,
+            'created_at': report.created_at
+        } for report in reports
+    ]
+    return jsonify(result), 200
+
+# Fetch reports by phone number
+@report_bp.route('/phone/<string:phone_number>', methods=['GET'])
+def get_reports_by_phone(phone_number):
+    reports = Report.query.filter_by(phone_number=phone_number).all()
     result = [
         {
             'id': report.id,
