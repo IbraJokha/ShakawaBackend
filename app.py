@@ -12,6 +12,7 @@ CORS(app, resources={r"/*": {"origins": ["http://localhost:8081", "http://54.226
 
 
 # Configure database
+# Set the SQLAlchemy database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
