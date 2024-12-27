@@ -3,8 +3,7 @@ from models import db, Report
 
 # Create a Blueprint for report routes
 report_bp = Blueprint('reports', __name__)
-
-# Create a new report
+#create report
 @report_bp.route('/', methods=['POST'])
 def create_report():
     data = request.json
@@ -15,13 +14,15 @@ def create_report():
             category=data['category'],
             gps_location=data.get('gps_location'),
             manual_location=data.get('manual_location'),
-            media_url=data.get('media_url')
+            media_url=data.get('media_url'),
+            phone_number=data.get('phone_number')  # Accept phone number
         )
         db.session.add(report)
         db.session.commit()
         return jsonify({'message': 'Report created successfully!', 'report': report.id}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
 
 # Fetch all reports
 @report_bp.route('/', methods=['GET'])
