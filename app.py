@@ -3,6 +3,7 @@ from flask_cors import CORS
 from models import db
 from database.config import DATABASE_URI
 from routes.report_routes import report_bp
+from flask_migrate import Migrate
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -16,7 +17,7 @@ CORS(app, resources={r"/*": {"origins": ["http://localhost:8081", "http://54.226
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
-
+migrate = Migrate(app, db)
 # Register routes
 app.register_blueprint(report_bp, url_prefix='/api/reports')
 
