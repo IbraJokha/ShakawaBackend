@@ -8,7 +8,7 @@ from routes.report_routes import report_bp
 app = Flask(__name__)
 
 # Enable CORS
-CORS(app, resources={r"/*": {"origins": "*"}})  # Allow all origins
+CORS(app, resources={r"/*": {"origins": ["http://localhost:8081", "http://54.226.198.150"]}})
 
 
 # Configure database
