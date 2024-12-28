@@ -3,6 +3,23 @@ from models import db, Report
 
 # Create a Blueprint for report routes
 report_bp = Blueprint('reports', __name__)
+
+def handle_options_response():
+    response = make_response()
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    return response
+
+# Add an OPTIONS method to all routes
+@report_bp.route('/', methods=['OPTIONS'])
+@report_bp.route('/<int:report_id>', methods=['OPTIONS'])
+@report_bp.route('/phone/<string:phone_number>', methods=['OPTIONS'])
+def handle_options():
+    return handle_options_response()
+
+
+
 #create report
 @report_bp.route('/', methods=['POST'])
 def create_report():
