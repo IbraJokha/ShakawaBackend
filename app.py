@@ -11,7 +11,10 @@ app = Flask(__name__)
 # Enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-
+@app.before_request
+def handle_preflight():
+    if request.method == 'OPTIONS':
+        return '', 200
 # Configure database
 # Set the SQLAlchemy database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
