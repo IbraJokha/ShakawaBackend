@@ -37,6 +37,7 @@ def get_reports():
             'gps_location': report.gps_location,
             'manual_location': report.manual_location,
             'media_url': report.media_url,
+            'phone_number': report.phone_number,  # Include phone number
             'created_at': report.created_at
         } for report in reports
     ]
@@ -49,14 +50,15 @@ def get_reports_by_phone(phone_number):
         reports = Report.query.filter_by(phone_number=phone_number).all()
         result = [
             {
-                'id': report.id,
-                'title': report.title,
-                'description': report.description,
-                'category': report.category,
-                'gps_location': report.gps_location,
-                'manual_location': report.manual_location,
-                'media_url': report.media_url,
-                'created_at': report.created_at
+            'id': report.id,
+            'title': report.title,
+            'description': report.description,
+            'category': report.category,
+            'gps_location': report.gps_location,
+            'manual_location': report.manual_location,
+            'media_url': report.media_url,
+            'phone_number': report.phone_number,  # Include phone number
+            'created_at': report.created_at
             } for report in reports
         ]
         return jsonify(result), 200
