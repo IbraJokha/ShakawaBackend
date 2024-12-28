@@ -9,7 +9,7 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 
 # Enable CORS
-CORS(app, resources={r"/*": {"origins": ["http://localhost:8081", "http://54.226.198.150"]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 # Configure database
